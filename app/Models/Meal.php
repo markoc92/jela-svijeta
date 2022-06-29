@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use App\Http\Filters\MealFilter;
 use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
 class Meal extends Model implements TranslatableContract
 {
-    use HasFactory, Translatable, SoftDeletes;
+    use HasFactory, SoftDeletes, Translatable;
 
-    protected $fillable = ['category_id'];
     public $translatedAttributes = ['title', 'description'];
+    protected $fillable = ['category_id'];
 
     public function category()
     {
@@ -22,11 +25,11 @@ class Meal extends Model implements TranslatableContract
 
     public function tags()
     {
-        return $this->belongsToMany(Tags::class, 'meal_tag');
+        return $this->belongsToMany(Tag::class, 'meal_tag');
     }
 
     public function ingredients()
     {
-        return $this->belongsToMany(Ingredients::class, 'meal_ingredient');
+        return $this->belongsToMany(Ingredient::class, 'meal_ingredient');
     }
 }

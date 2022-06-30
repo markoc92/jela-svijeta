@@ -16,7 +16,7 @@ class MealSeeder extends Seeder
      */
     public function run()
     {
-        // Assign category for specific meals
+        // Assign category for meals
         $categories = Category::pluck('id')->toArray();
         foreach ($categories as $category) {
             Meal::factory(10)->create(['category_id' => $category]);
@@ -26,12 +26,13 @@ class MealSeeder extends Seeder
         Meal::factory(20)->create();
 
         // Update meals
-        $mealsUpdate = Meal::all()->random(40)->each(function ($meal) {
+        Meal::all()->random(60)->each(function ($meal) {
             $meal->touch();
         });
 
         // Delete meals
-        $mealsDelete = Meal::pluck('id')->random(20)->toArray();
-        Meal::destroy($mealsDelete);
+        Meal::all()->random(30)->each(function ($meal) {
+            $meal->delete();
+        });
     }
 }

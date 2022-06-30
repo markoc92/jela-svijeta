@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Rules;
+namespace App\Http\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class CommaNumbers implements Rule
+class AcceptedInput implements Rule
 {
     /**
      * Create a new rule instance.
@@ -26,14 +26,13 @@ class CommaNumbers implements Rule
     public function passes($attribute, $value)
     {
         $keywords = explode(',', $value);
+        $acceptable = array('category', 'tags', 'ingredients');
 
-        foreach ($keywords as $keyword) {
-            if (!filter_var($keyword, FILTER_VALIDATE_INT)) {
-                return false;
-            }
-        }
+        if (!array_diff($keywords, $acceptable)) {
+            return true;
+        };
 
-        return true;
+        return false;
     }
 
     /**
@@ -43,6 +42,6 @@ class CommaNumbers implements Rule
      */
     public function message()
     {
-        return 'The tag must be an comma separated integer greater than 0.';
+        return 'Incorrect "with" query requested. The "with" query must contain at least one of the following: category, tags, ingredients.';
     }
 }

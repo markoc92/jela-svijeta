@@ -7,6 +7,7 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use ExceptionTrait;
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -43,8 +44,13 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
-        });
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($request->expectsJson()) {
+            return $this->apiException($request, $exception);
+        }
+        return parent::render($request, $exception);
     }
 }

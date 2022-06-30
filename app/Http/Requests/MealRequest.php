@@ -3,9 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Models\Language;
-use App\Rules\CommaNumbers;
-use Illuminate\Validation\Rule;
 use Axiom\Rules\Lowercase;
+use Illuminate\Validation\Rule;
+use App\Http\Rules\CommaNumbers;
+use App\Http\Rules\AcceptedInput;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MealRequest extends FormRequest
@@ -32,7 +33,7 @@ class MealRequest extends FormRequest
             'page' => 'sometimes|integer|min:1',
             'category' => 'sometimes|integer|min:1',
             'tags' => ['sometimes', new CommaNumbers],
-            'with' => ['sometimes', 'string', new Lowercase, 'starts_with:category,tags,ingredients'],
+            'with' => ['sometimes', 'string', new Lowercase, new AcceptedInput],
             'lang' => ['required', Rule::in(Language::pluck('locale')->toArray())],
             'diff_time' => 'sometimes|integer|min:1',
         ];

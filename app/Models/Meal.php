@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use App\Http\Filters\MealFilter;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Filters\BaseMealCollectionFilter;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,5 +30,10 @@ class Meal extends Model implements TranslatableContract
     public function ingredients()
     {
         return $this->belongsToMany(Ingredient::class, 'meal_ingredient');
+    }
+
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new BaseMealCollectionFilter($request))->filter($builder);
     }
 }

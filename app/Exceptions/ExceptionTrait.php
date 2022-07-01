@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\Eloquent\RelationNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 trait ExceptionTrait

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 abstract class AbstractFilter
 {
     protected $request;
+    protected $builder;
 
     protected $filters = [];
 
@@ -17,6 +18,7 @@ abstract class AbstractFilter
     {
         $this->request = $request;
     }
+
     public function filter(Builder $builder)
     {
         foreach ($this->getFilters() as $filter => $value) {
